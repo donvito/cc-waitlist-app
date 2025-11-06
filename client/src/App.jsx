@@ -91,6 +91,26 @@ function App() {
       <footer className="footer">
         <div className="container">
           <p>&copy; 2025 Waitlist App. All rights reserved.</p>
+          <p className="footer-made-with-love">
+            Made with <span className="heart">❤️</span> by{' '}
+            <a
+              href="https://donvitocodes.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              donvitocodes.com
+            </a>
+            {' '}&{' '}
+            <a
+              href="https://github.com/donvito"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              github.com/donvito
+            </a>
+          </p>
           <p className="footer-note">
             Powered by{' '}
             <a
