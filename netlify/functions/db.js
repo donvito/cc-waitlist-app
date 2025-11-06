@@ -7,8 +7,21 @@ const BLOB_KEY = 'entries';
 
 // Helper function to get the blob store
 function getBlobStore() {
-  // When running on Netlify, the context is automatically detected
-  // No need to explicitly pass siteID or token
+  // Netlify Blobs requires explicit configuration in deploy previews
+  // Use environment variables or let Netlify auto-detect in production
+  const siteID = process.env.SITE_ID;
+  const token = process.env.NETLIFY_BLOBS_TOKEN;
+
+  // If we have explicit config, use it (required for deploy previews)
+  if (siteID && token) {
+    return getStore({
+      name: STORE_NAME,
+      siteID: siteID,
+      token: token
+    });
+  }
+
+  // Otherwise try automatic detection (works in production)
   return getStore(STORE_NAME);
 }
 
