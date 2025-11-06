@@ -1,11 +1,7 @@
-import { useState } from 'react';
 import WaitlistForm from './components/WaitlistForm';
-import AdminDashboard from './components/AdminDashboard';
 import './App.css';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('join');
-
   return (
     <div className="app">
       <header className="header">
@@ -13,27 +9,22 @@ function App() {
         <p className="subtitle">Join our exclusive waitlist</p>
       </header>
 
-      <nav className="tabs">
-        <button
-          className={`tab ${activeTab === 'join' ? 'active' : ''}`}
-          onClick={() => setActiveTab('join')}
-        >
-          Join Waitlist
-        </button>
-        <button
-          className={`tab ${activeTab === 'admin' ? 'active' : ''}`}
-          onClick={() => setActiveTab('admin')}
-        >
-          Admin Dashboard
-        </button>
-      </nav>
-
       <main className="main">
-        {activeTab === 'join' ? <WaitlistForm /> : <AdminDashboard />}
+        <WaitlistForm />
       </main>
 
       <footer className="footer">
         <p>&copy; 2025 Waitlist App. All rights reserved.</p>
+        <p className="admin-note">
+          View submissions in your{' '}
+          <a
+            href="https://app.netlify.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Netlify Dashboard
+          </a>
+        </p>
       </footer>
     </div>
   );

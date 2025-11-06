@@ -8,7 +8,6 @@ function WaitlistForm() {
   });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
-  const [position, setPosition] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -23,27 +22,27 @@ function WaitlistForm() {
     setStatus({ type: '', message: '' });
 
     try {
-      const response = await fetch('/api/add-to-waitlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
+      // Create FormData object from the form
+      const myForm = e.target;
+      const formDataObj = new FormData(myForm);
 
-      const data = await response.json();
+      // Submit to Netlify Forms using URL-encoded format
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formDataObj).toString()
+      });
 
       if (response.ok) {
         setStatus({
           type: 'success',
-          message: `Success! You're #${data.data.position} on the waitlist.`
+          message: 'Success! You\'re now on the waitlist. We\'ll be in touch soon!'
         });
-        setPosition(data.data.position);
         setFormData({ name: '', email: '' });
       } else {
         setStatus({
           type: 'error',
-          message: data.error || 'Failed to join waitlist'
+          message: 'Failed to join waitlist. Please try again.'
         });
       }
     } catch (error) {
@@ -58,13 +57,27 @@ function WaitlistForm() {
 
   return (
     <div className="waitlist-form-container">
+      {/* Hidden form for Netlify to detect during build */}
+      <form name="waitlist" netlify="true" hidden>
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+      </form>
+
       <div className="form-card">
         <h2>Join the Waitlist</h2>
         <p className="form-description">
           Be the first to know when we launch. Enter your details below to secure your spot!
         </p>
 
-        <form onSubmit={handleSubmit} className="waitlist-form">
+        <form
+          name="waitlist"
+          method="POST"
+          onSubmit={handleSubmit}
+          className="waitlist-form"
+          data-netlify="true"
+        >
+          <input type="hidden" name="form-name" value="waitlist" />
+
           <div className="form-group">
             <label htmlFor="name">Full Name</label>
             <input
@@ -101,13 +114,6 @@ function WaitlistForm() {
         {status.message && (
           <div className={`status-message ${status.type}`}>
             {status.message}
-          </div>
-        )}
-
-        {position && (
-          <div className="position-badge">
-            <span className="position-number">#{position}</span>
-            <span className="position-text">in line</span>
           </div>
         )}
       </div>

@@ -1,44 +1,78 @@
-# Netlify Blobs Setup
+# Netlify Forms Setup
 
-This application uses Netlify Blobs for storage. To use it in deploy previews and production, you need to configure a personal access token.
+This application uses **Netlify Forms** for handling waitlist submissions - a built-in feature that requires zero configuration!
 
-## Required Environment Variable
+## How It Works
 
-You only need to add **one** environment variable:
+Netlify Forms automatically detects forms in your site during the build process. When users submit the form, submissions are stored and accessible in your Netlify Dashboard.
 
-**NETLIFY_BLOBS_TOKEN**
-- A Netlify Personal Access Token with Blobs access
-- How to create one:
-  1. Go to https://app.netlify.com/user/applications
-  2. Click **New access token**
-  3. Give it a name (e.g., "Blobs Access")
-  4. Copy the token (you won't see it again!)
+## Setup (Automatic)
 
-Note: `SITE_ID` is automatically provided by Netlify - you don't need to set it manually.
+**No setup required!** Netlify Forms works out of the box:
 
-## How to Add the Environment Variable in Netlify
+1. ✅ The form includes `data-netlify="true"` attribute
+2. ✅ Netlify automatically detects the form during build
+3. ✅ Submissions are automatically stored
+4. ✅ No environment variables needed
+5. ✅ No API endpoints needed
+6. ✅ No external database needed
 
-1. Go to your site dashboard: https://app.netlify.com/sites/YOUR-SITE-NAME/settings
-2. Navigate to: **Site settings** → **Environment variables**
-3. Click **Add a variable**
-4. Add the variable:
-   - Variable: `NETLIFY_BLOBS_TOKEN`
-   - Value: `[your-access-token]`
-   - Scopes: **All** (Production, Deploy Previews, Branch deploys)
-5. Click **Save**
+## Viewing Submissions
 
-## Important Notes
+To view waitlist submissions:
 
-- After adding environment variables, you need to **redeploy** your site for changes to take effect
-- For deploy previews, make sure the variables are enabled for "Deploy Previews" context
-- Keep your access token secret - never commit it to your repository
+1. Go to your Netlify site dashboard: https://app.netlify.com
+2. Select your site
+3. Navigate to **Forms** in the sidebar
+4. Click on the **waitlist** form to view all submissions
 
-## Quick Access Links
+## Setting Up Notifications (Optional)
 
-- **Get Site ID**: Site Settings → General → Site details
-- **Create Access Token**: https://app.netlify.com/user/applications
-- **Add Environment Variables**: Site Settings → Environment variables
+Get notified when someone joins your waitlist:
 
-## Verification
+1. In your Netlify site dashboard, go to **Forms**
+2. Click on **Form notifications**
+3. Choose notification type:
+   - **Email notifications**: Get submissions sent to your inbox
+   - **Webhook notifications**: Send submissions to external services (Slack, Discord, etc.)
 
-After setup, test by submitting the waitlist form. You should see entries being stored successfully.
+## Spam Protection (Optional)
+
+Netlify Forms includes built-in spam filtering. To enable additional protection:
+
+1. Go to **Forms** → **Form settings**
+2. Enable **reCAPTCHA 2** or **Akismet** spam filtering
+3. Follow the instructions to configure your preferred spam filter
+
+## Export Submissions
+
+You can export form submissions as CSV:
+
+1. Go to **Forms** → Select your form
+2. Click **Export submissions**
+3. Choose date range and download as CSV
+
+## No Cost for Small Projects
+
+Netlify Forms includes:
+- **100 submissions/month** on the free tier
+- Unlimited forms
+- Spam filtering
+- Email/webhook notifications
+
+For higher volume, check [Netlify's pricing](https://www.netlify.com/pricing/).
+
+## Troubleshooting
+
+If forms aren't working:
+
+1. **Enable form detection**: Go to **Forms** → **Enable form detection**
+2. **Redeploy your site**: Forms are detected during the build process
+3. **Check the form**: Make sure it has `data-netlify="true"` attribute
+4. **View build logs**: Check if Netlify detected your form during deployment
+
+## Resources
+
+- [Netlify Forms Documentation](https://docs.netlify.com/forms/setup/)
+- [Form Submissions](https://docs.netlify.com/forms/submissions/)
+- [Form Notifications](https://docs.netlify.com/forms/notifications/)
