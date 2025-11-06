@@ -1,32 +1,31 @@
 # Netlify Blobs Setup
 
-This application uses Netlify Blobs for storage. To use it in deploy previews and production, you need to configure environment variables.
+This application uses Netlify Blobs for storage. To use it in deploy previews and production, you need to configure a personal access token.
 
-## Required Environment Variables
+## Required Environment Variable
 
-Add these variables in your Netlify dashboard:
+You only need to add **one** environment variable:
 
-1. **SITE_ID**
-   - Your Netlify Site ID
-   - Found in: Site Settings → General → Site details → Site ID
+**NETLIFY_BLOBS_TOKEN**
+- A Netlify Personal Access Token with Blobs access
+- How to create one:
+  1. Go to https://app.netlify.com/user/applications
+  2. Click **New access token**
+  3. Give it a name (e.g., "Blobs Access")
+  4. Copy the token (you won't see it again!)
 
-2. **NETLIFY_BLOBS_TOKEN**
-   - A Netlify Personal Access Token
-   - How to create one:
-     1. Go to https://app.netlify.com/user/applications
-     2. Click "New access token"
-     3. Give it a name (e.g., "Blobs Access")
-     4. Copy the token (you won't see it again!)
+Note: `SITE_ID` is automatically provided by Netlify - you don't need to set it manually.
 
-## How to Add Environment Variables in Netlify
+## How to Add the Environment Variable in Netlify
 
 1. Go to your site dashboard: https://app.netlify.com/sites/YOUR-SITE-NAME/settings
 2. Navigate to: **Site settings** → **Environment variables**
 3. Click **Add a variable**
-4. Add both variables:
-   - Variable: `SITE_ID`, Value: `your-site-id`
-   - Variable: `NETLIFY_BLOBS_TOKEN`, Value: `your-access-token`
-5. Make sure to set them for **all contexts** (Production, Deploy Previews, Branch deploys)
+4. Add the variable:
+   - Variable: `NETLIFY_BLOBS_TOKEN`
+   - Value: `[your-access-token]`
+   - Scopes: **All** (Production, Deploy Previews, Branch deploys)
+5. Click **Save**
 
 ## Important Notes
 
