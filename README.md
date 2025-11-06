@@ -141,11 +141,11 @@ That's it! No environment variables to configure.
 2. Go to [Netlify](https://app.netlify.com)
 3. Click "Add new site" > "Import an existing project"
 4. Connect your GitHub repository
-5. Configure build settings:
-   - Build command: `npm run build`
+5. Netlify will automatically detect the `netlify.toml` configuration file which includes:
+   - Build command: `cd client && npm install && npm run build`
    - Publish directory: `client/dist`
    - Functions directory: `netlify/functions`
-6. Deploy!
+6. Click "Deploy site"!
 
 No environment variables needed - it just works!
 
