@@ -1,0 +1,20 @@
+{
+  "name": "waitlist-app",
+  "version": "1.0.0",
+  "description": "A waitlist application deployable on Netlify",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "cd client && npm run build",
+    "install:all": "npm install && cd client && npm install"
+  },
+  "keywords": ["waitlist", "netlify", "react", "serverless"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.3",
+    "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.10.1"
+  }
+}
