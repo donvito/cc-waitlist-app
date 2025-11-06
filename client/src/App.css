@@ -1,10 +1,10 @@
 /* ============================================
-   Dark/Monochrome Landing Page
+   Landing Page with Theme Support
    ============================================ */
 
 .app {
   min-height: 100vh;
-  background: #0a0a0a;
+  background: var(--bg-primary);
 }
 
 .container {
@@ -24,7 +24,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #0a0a0a;
+  background: var(--hero-bg);
 }
 
 .hero-background {
@@ -40,14 +40,14 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(120px);
-  opacity: 0.15;
+  opacity: var(--orb-opacity);
   animation: float 25s ease-in-out infinite;
 }
 
 .orb-1 {
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, #ffffff 0%, #666666 100%);
+  background: var(--orb-1);
   top: -300px;
   left: -300px;
   animation-delay: 0s;
@@ -56,7 +56,7 @@
 .orb-2 {
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, #888888 0%, #333333 100%);
+  background: var(--orb-2);
   bottom: -250px;
   right: -250px;
   animation-delay: 7s;
@@ -65,7 +65,7 @@
 .orb-3 {
   width: 450px;
   height: 450px;
-  background: radial-gradient(circle, #aaaaaa 0%, #555555 100%);
+  background: var(--orb-3);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -93,10 +93,10 @@
 
 .badge {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   padding: 0.5rem 1.5rem;
   border-radius: 50px;
   font-size: 0.875rem;
@@ -110,7 +110,7 @@
 .hero-title {
   font-size: 3.5rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
   line-height: 1.2;
   animation: fadeInUp 0.6s ease-out 0.1s both;
@@ -118,7 +118,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+  background: var(--gradient-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -127,7 +127,7 @@
 
 .hero-subtitle {
   font-size: 1.25rem;
-  color: #a0a0a0;
+  color: var(--text-secondary);
   max-width: 700px;
   margin: 0 auto 3rem;
   line-height: 1.8;
@@ -155,15 +155,15 @@
 
 .features {
   padding: 6rem 0;
-  background: #0f0f0f;
-  border-top: 1px solid #1a1a1a;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
 }
 
 .section-title {
   text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 3rem;
   letter-spacing: -0.5px;
 }
@@ -176,10 +176,10 @@
 }
 
 .feature-card {
-  background: #1a1a1a;
+  background: var(--feature-bg);
   padding: 2.5rem;
   border-radius: 1rem;
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--feature-border);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -192,7 +192,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -203,28 +203,27 @@
 
 .feature-card:hover {
   transform: translateY(-5px);
-  border-color: #3a3a3a;
-  background: #1f1f1f;
+  border-color: var(--feature-hover-border);
+  background: var(--feature-hover-bg);
 }
 
 .feature-icon {
   font-size: 3rem;
   margin-bottom: 1.5rem;
   display: inline-block;
-  filter: grayscale(100%);
   opacity: 0.9;
 }
 
 .feature-card h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 1rem;
   letter-spacing: -0.3px;
 }
 
 .feature-card p {
-  color: #888888;
+  color: var(--text-secondary);
   line-height: 1.7;
   font-size: 1rem;
 }
@@ -235,9 +234,9 @@
 
 .social-proof {
   padding: 5rem 0;
-  background: #0a0a0a;
-  border-top: 1px solid #1a1a1a;
-  border-bottom: 1px solid #1a1a1a;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .stats-grid {
@@ -248,14 +247,14 @@
 }
 
 .stat {
-  color: white;
+  color: var(--text-primary);
 }
 
 .stat-number {
   font-size: 3rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+  background: var(--stat-number);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -264,7 +263,7 @@
 
 .stat-label {
   font-size: 1.125rem;
-  color: #666666;
+  color: var(--stat-label);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -277,21 +276,21 @@
 
 .cta {
   padding: 6rem 0;
-  background: #0f0f0f;
+  background: var(--bg-secondary);
   text-align: center;
 }
 
 .cta-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 1rem;
   letter-spacing: -0.5px;
 }
 
 .cta-subtitle {
   font-size: 1.25rem;
-  color: #888888;
+  color: var(--text-secondary);
   margin-bottom: 2.5rem;
   max-width: 600px;
   margin-left: auto;
@@ -300,15 +299,15 @@
 
 .cta-button {
   display: inline-block;
-  background: #ffffff;
-  color: #0a0a0a;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   padding: 1rem 3rem;
   border-radius: 50px;
   font-size: 1.125rem;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px var(--shadow-color);
   position: relative;
   overflow: hidden;
 }
@@ -330,8 +329,8 @@
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.15);
-  background: #f5f5f5;
+  box-shadow: 0 15px 40px var(--shadow-hover);
+  background: var(--btn-primary-hover);
 }
 
 /* ============================================
@@ -339,11 +338,11 @@
    ============================================ */
 
 .footer {
-  background: #0a0a0a;
-  color: #666666;
+  background: var(--bg-primary);
+  color: var(--text-muted);
   padding: 3rem 0;
   text-align: center;
-  border-top: 1px solid #1a1a1a;
+  border-top: 1px solid var(--border-color);
 }
 
 .footer p {
@@ -357,14 +356,14 @@
 }
 
 .footer-link {
-  color: #ffffff;
+  color: var(--text-primary);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .footer-link:hover {
-  color: #cccccc;
+  color: var(--text-secondary);
 }
 
 /* ============================================

@@ -1,9 +1,11 @@
 import WaitlistForm from './components/WaitlistForm';
+import ThemeToggle from './components/ThemeToggle';
 import './App.css';
 
 function App() {
   return (
     <div className="app">
+      <ThemeToggle />
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-background">
