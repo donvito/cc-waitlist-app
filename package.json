@@ -1,0 +1,17 @@
+{
+  "name": "waitlist-app",
+  "version": "1.0.0",
+  "description": "A waitlist application deployable on Netlify using Netlify Forms",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "cd client && npm run build",
+    "install:all": "npm install && cd client && npm install"
+  },
+  "keywords": ["waitlist", "netlify", "react", "netlify-forms"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "netlify-cli": "^17.10.1"
+  }
+}
