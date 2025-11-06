@@ -30,22 +30,26 @@ function WaitlistForm() {
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formDataObj).toString()
+        body: new URLSearchParams(formDataObj).toString(),
+        redirect: 'manual' // Don't follow redirects automatically
       });
 
-      if (response.ok) {
+      // Netlify Forms returns 200 or redirects on success
+      if (response.ok || response.type === 'opaqueredirect' || response.status === 0) {
         setStatus({
           type: 'success',
           message: 'Success! You\'re now on the waitlist. We\'ll be in touch soon!'
         });
         setFormData({ name: '', email: '' });
       } else {
+        console.error('Form submission failed:', response.status, response.statusText);
         setStatus({
           type: 'error',
           message: 'Failed to join waitlist. Please try again.'
         });
       }
     } catch (error) {
+      console.error('Form submission error:', error);
       setStatus({
         type: 'error',
         message: 'Network error. Please try again later.'
