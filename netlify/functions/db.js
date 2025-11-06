@@ -1,135 +1,112 @@
-const { createClient } = require('@supabase/supabase-js');
+const { getStore } = require('@netlify/blobs');
 
-// Initialize Supabase client
-// You'll need to set these environment variables in Netlify:
-// SUPABASE_URL and SUPABASE_ANON_KEY
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
+// Initialize Netlify Blobs store
+// This uses Netlify's built-in blob storage - no external service needed!
+const STORE_NAME = 'waitlist';
+const BLOB_KEY = 'entries';
 
-let supabase = null;
-
-if (supabaseUrl && supabaseKey) {
-  supabase = createClient(supabaseUrl, supabaseKey);
+// Helper function to get the blob store
+function getBlobStore() {
+  return getStore({
+    name: STORE_NAME,
+    siteID: process.env.SITE_ID,
+    token: process.env.NETLIFY_TOKEN || process.env.NETLIFY_ACCESS_TOKEN
+  });
 }
 
-// Helper function to check if database is configured
-function isDatabaseConfigured() {
-  return supabase !== null;
+// Helper function to get all entries from storage
+async function getStoredEntries() {
+  try {
+    const store = getBlobStore();
+    const data = await store.get(BLOB_KEY, { type: 'json' });
+    return data || [];
+  } catch (error) {
+    console.error('Error reading from blob store:', error);
+    return [];
+  }
+}
+
+// Helper function to save entries to storage
+async function saveEntries(entries) {
+  const store = getBlobStore();
+  await store.setJSON(BLOB_KEY, entries);
 }
 
 // Add entry to waitlist
 async function addToWaitlist(name, email) {
-  if (!supabase) {
-    throw new Error('Database not configured. Please set SUPABASE_URL and SUPABASE_ANON_KEY environment variables.');
+  const entries = await getStoredEntries();
+
+  // Check if email already exists
+  const emailLower = email.toLowerCase();
+  const existing = entries.find(e => e.email.toLowerCase() === emailLower);
+
+  if (existing) {
+    throw new Error('This email is already on the waitlist');
   }
 
-  // Get current max position
-  const { data: maxData } = await supabase
-    .from('waitlist')
-    .select('position')
-    .order('position', { ascending: false })
-    .limit(1);
+  // Get next ID and position
+  const maxId = entries.length > 0 ? Math.max(...entries.map(e => e.id)) : 0;
+  const nextPosition = entries.length + 1;
 
-  const nextPosition = maxData && maxData.length > 0 ? maxData[0].position + 1 : 1;
+  // Create new entry
+  const newEntry = {
+    id: maxId + 1,
+    name,
+    email: emailLower,
+    position: nextPosition,
+    created_at: new Date().toISOString()
+  };
 
-  // Insert new entry
-  const { data, error } = await supabase
-    .from('waitlist')
-    .insert([
-      {
-        name,
-        email: email.toLowerCase(),
-        position: nextPosition
-      }
-    ])
-    .select();
+  // Add to entries and save
+  entries.push(newEntry);
+  await saveEntries(entries);
 
-  if (error) {
-    if (error.code === '23505') { // Unique constraint violation
-      throw new Error('This email is already on the waitlist');
-    }
-    throw error;
-  }
-
-  return data[0];
+  return newEntry;
 }
 
 // Get all waitlist entries
 async function getAllEntries() {
-  if (!supabase) {
-    throw new Error('Database not configured');
-  }
-
-  const { data, error } = await supabase
-    .from('waitlist')
-    .select('*')
-    .order('position', { ascending: true });
-
-  if (error) throw error;
-  return data;
+  const entries = await getStoredEntries();
+  return entries.sort((a, b) => a.position - b.position);
 }
 
 // Get position by email
 async function getPositionByEmail(email) {
-  if (!supabase) {
-    throw new Error('Database not configured');
-  }
-
-  const { data, error } = await supabase
-    .from('waitlist')
-    .select('*')
-    .eq('email', email.toLowerCase())
-    .single();
-
-  if (error && error.code !== 'PGRST116') { // PGRST116 = not found
-    throw error;
-  }
-
-  return data;
+  const entries = await getStoredEntries();
+  const emailLower = email.toLowerCase();
+  return entries.find(e => e.email.toLowerCase() === emailLower) || null;
 }
 
 // Delete entry
 async function deleteEntry(id) {
-  if (!supabase) {
-    throw new Error('Database not configured');
+  const entries = await getStoredEntries();
+  const index = entries.findIndex(e => e.id === parseInt(id));
+
+  if (index === -1) {
+    return false;
   }
 
-  const { error } = await supabase
-    .from('waitlist')
-    .delete()
-    .eq('id', id);
-
-  if (error) throw error;
+  // Remove the entry
+  entries.splice(index, 1);
 
   // Reorder positions
-  await reorderPositions();
+  entries.forEach((entry, idx) => {
+    entry.position = idx + 1;
+  });
+
+  await saveEntries(entries);
   return true;
-}
-
-// Reorder positions after deletion
-async function reorderPositions() {
-  const entries = await getAllEntries();
-
-  for (let i = 0; i < entries.length; i++) {
-    await supabase
-      .from('waitlist')
-      .update({ position: i + 1 })
-      .eq('id', entries[i].id);
-  }
 }
 
 // Get count
 async function getCount() {
-  if (!supabase) {
-    throw new Error('Database not configured');
-  }
+  const entries = await getStoredEntries();
+  return entries.length;
+}
 
-  const { count, error } = await supabase
-    .from('waitlist')
-    .select('*', { count: 'exact', head: true });
-
-  if (error) throw error;
-  return count;
+// Helper function to check if database is configured
+function isDatabaseConfigured() {
+  return true; // Netlify Blobs is always available on Netlify
 }
 
 module.exports = {

@@ -20,7 +20,7 @@ A modern, full-stack waitlist application built with React, Vite, and Netlify Fu
 
 ### Backend
 - Netlify Functions (Serverless)
-- Supabase (PostgreSQL database)
+- Netlify Blobs (Built-in storage - no external database needed!)
 - Node.js
 
 ## Prerequisites
@@ -28,44 +28,27 @@ A modern, full-stack waitlist application built with React, Vite, and Netlify Fu
 Before you begin, ensure you have:
 - Node.js 18+ installed
 - npm or yarn
-- A Netlify account
-- A Supabase account (free tier available)
+- A Netlify account (free tier available)
 
-## Database Setup
+**That's it!** No external database setup required - Netlify Blobs is built-in!
 
-### Option 1: Supabase (Recommended)
+## Why Netlify Blobs?
 
-1. Create a free account at [supabase.com](https://supabase.com)
-2. Create a new project
-3. Go to the SQL Editor and run this SQL:
+This app uses **Netlify Blobs** for data storage, which means:
+- ✅ **No external database signup** required
+- ✅ **Zero configuration** - works automatically on Netlify
+- ✅ **Free tier included** with your Netlify account
+- ✅ **Automatic scaling** - no database management
+- ✅ **Fast deployment** - just push and deploy!
 
-```sql
-CREATE TABLE waitlist (
-  id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  email TEXT NOT NULL UNIQUE,
-  position INTEGER NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
+### Alternative Database Options
 
-CREATE INDEX idx_waitlist_position ON waitlist(position);
-CREATE INDEX idx_waitlist_email ON waitlist(email);
-```
-
-4. Get your project credentials:
-   - Go to Project Settings > API
-   - Copy the `URL` (your SUPABASE_URL)
-   - Copy the `anon/public` key (your SUPABASE_ANON_KEY)
-
-### Option 2: Other PostgreSQL Databases
-
-You can also use:
-- Neon (https://neon.tech)
-- Railway (https://railway.app)
-- Heroku Postgres
-- Any PostgreSQL database
-
-Just update the `netlify/functions/db.js` file to use your database connection.
+If you need more advanced features or want to use a different database, you can easily modify `netlify/functions/db.js` to use:
+- **Supabase** - PostgreSQL (free tier)
+- **Neon** - Serverless PostgreSQL (free tier)
+- **MongoDB Atlas** - NoSQL database (free tier)
+- **PlanetScale** - MySQL (free tier)
+- **Airtable** - Spreadsheet-based API (free tier)
 
 ## Installation
 
@@ -94,16 +77,13 @@ npm run install:all
 
 ## Configuration
 
-### Environment Variables
+**Good news!** No manual configuration needed. Netlify Blobs works automatically when deployed to Netlify.
 
-Create a `.env` file in the root directory:
+The following environment variables are automatically provided by Netlify:
+- `SITE_ID` - Your Netlify site ID
+- `NETLIFY_ACCESS_TOKEN` - Authentication token for Netlify services
 
-```env
-SUPABASE_URL=your_supabase_project_url
-SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-**Important**: Never commit the `.env` file to version control. It's already in `.gitignore`.
+These are injected automatically during deployment - you don't need to set them manually!
 
 ## Development
 
@@ -148,18 +128,14 @@ netlify login
 netlify init
 ```
 
-4. Set environment variables:
-```bash
-netlify env:set SUPABASE_URL "your_supabase_url"
-netlify env:set SUPABASE_ANON_KEY "your_supabase_key"
-```
-
-5. Deploy:
+4. Deploy:
 ```bash
 netlify deploy --prod
 ```
 
-### Method 2: Netlify UI
+That's it! No environment variables to configure.
+
+### Method 2: Netlify UI (Recommended)
 
 1. Push your code to GitHub
 2. Go to [Netlify](https://app.netlify.com)
@@ -169,10 +145,9 @@ netlify deploy --prod
    - Build command: `npm run build`
    - Publish directory: `client/dist`
    - Functions directory: `netlify/functions`
-6. Add environment variables in Site settings > Environment variables:
-   - `SUPABASE_URL`
-   - `SUPABASE_ANON_KEY`
-7. Deploy!
+6. Deploy!
+
+No environment variables needed - it just works!
 
 ## API Endpoints
 
@@ -283,10 +258,11 @@ Update the header in `client/src/App.jsx`:
 
 ## Security Considerations
 
-1. **Database Security**: Use Supabase Row Level Security (RLS) policies
-2. **Rate Limiting**: Consider adding rate limiting to prevent spam
+1. **Data Storage**: Data is stored securely in Netlify Blobs with automatic encryption
+2. **Rate Limiting**: Consider adding rate limiting to prevent spam signups
 3. **Email Validation**: Built-in email validation on both frontend and backend
 4. **Admin Protection**: Add authentication to protect the admin dashboard in production
+5. **CORS**: Properly configured for secure API access
 
 ## Future Enhancements
 
@@ -300,21 +276,24 @@ Update the header in `client/src/App.jsx`:
 
 ## Troubleshooting
 
-### Database not configured error
-
-Make sure you've set the environment variables:
-- Check `.env` file exists
-- Verify `SUPABASE_URL` and `SUPABASE_ANON_KEY` are set in Netlify
-
 ### Functions not working locally
 
-- Make sure you're using `netlify dev` instead of `npm run dev` if you want to test functions locally
+For local development with Netlify Functions:
+- Use `netlify dev` instead of `npm run dev`
 - Install Netlify CLI: `npm install -g netlify-cli`
+- The functions will be available at `http://localhost:8888/.netlify/functions/`
+
+### Data not persisting
+
+- Netlify Blobs only works when deployed to Netlify
+- For local development, data will reset between restarts (this is normal)
+- Once deployed, data persists automatically
 
 ### Build errors
 
 - Clear node_modules: `rm -rf node_modules client/node_modules && npm run install:all`
 - Check Node.js version: `node --version` (should be 18+)
+- Ensure you've run `npm install` in both root and client directories
 
 ## Contributing
 
