@@ -8,6 +8,13 @@
     <title>Waitlist App - Join Our Exclusive Waitlist</title>
   </head>
   <body>
+    <!-- Hidden form for Netlify Forms detection during build -->
+    <!-- This must be in static HTML for Netlify to detect it -->
+    <form name="waitlist" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+    </form>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

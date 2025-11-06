@@ -61,12 +61,6 @@ function WaitlistForm() {
 
   return (
     <div className="waitlist-form-container">
-      {/* Hidden form for Netlify to detect during build */}
-      <form name="waitlist" netlify="true" hidden>
-        <input type="text" name="name" />
-        <input type="email" name="email" />
-      </form>
-
       <div className="form-card">
         <h2>Join the Waitlist</h2>
         <p className="form-description">
@@ -79,8 +73,15 @@ function WaitlistForm() {
           onSubmit={handleSubmit}
           className="waitlist-form"
           data-netlify="true"
+          data-netlify-honeypot="bot-field"
         >
           <input type="hidden" name="form-name" value="waitlist" />
+          {/* Honeypot field for spam protection - hidden from users */}
+          <p style={{ display: 'none' }}>
+            <label>
+              Don't fill this out if you're human: <input name="bot-field" />
+            </label>
+          </p>
 
           <div className="form-group">
             <label htmlFor="name">Full Name</label>
