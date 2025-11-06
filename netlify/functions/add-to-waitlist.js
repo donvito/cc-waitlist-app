@@ -80,6 +80,8 @@ exports.handler = async (event) => {
     };
   } catch (error) {
     console.error('Error adding to waitlist:', error);
+    console.error('Error stack:', error.stack);
+    console.error('Error details:', JSON.stringify(error, null, 2));
 
     if (error.message.includes('already on the waitlist')) {
       return {
@@ -103,12 +105,15 @@ exports.handler = async (event) => {
       };
     }
 
+    // In development/preview, return more detailed error
+    const isDev = process.env.CONTEXT !== 'production';
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
         success: false,
-        error: 'Failed to add to waitlist'
+        error: isDev ? `Failed to add to waitlist: ${error.message}` : 'Failed to add to waitlist',
+        ...(isDev && { details: error.toString() })
       })
     };
   }

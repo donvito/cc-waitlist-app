@@ -7,11 +7,9 @@ const BLOB_KEY = 'entries';
 
 // Helper function to get the blob store
 function getBlobStore() {
-  return getStore({
-    name: STORE_NAME,
-    siteID: process.env.SITE_ID,
-    token: process.env.NETLIFY_TOKEN || process.env.NETLIFY_ACCESS_TOKEN
-  });
+  // When running on Netlify, the context is automatically detected
+  // No need to explicitly pass siteID or token
+  return getStore(STORE_NAME);
 }
 
 // Helper function to get all entries from storage
