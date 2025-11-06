@@ -345,6 +345,55 @@
   border-top: 1px solid var(--border-color);
 }
 
+.template-notice {
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+}
+
+.template-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.template-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.template-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: var(--text-primary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.template-link:hover::after {
+  transform: scaleX(1);
+}
+
+.footer-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 2rem 0;
+  opacity: 0.5;
+}
+
 .footer p {
   margin: 0.5rem 0;
   font-size: 0.9rem;
@@ -455,6 +504,14 @@
     width: 300px;
     height: 300px;
   }
+
+  .template-notice {
+    padding: 0.875rem 1rem;
+  }
+
+  .template-text {
+    font-size: 0.9375rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -477,5 +534,14 @@
   .cta-button {
     padding: 0.875rem 2rem;
     font-size: 1rem;
+  }
+
+  .template-notice {
+    padding: 0.75rem 0.875rem;
+  }
+
+  .template-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
   }
 }

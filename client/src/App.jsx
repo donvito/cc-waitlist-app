@@ -90,6 +90,22 @@ function App() {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
+          <div className="template-notice">
+            <p className="template-text">
+              🚀 Use this waitlist template • Netlify Forms supported • Best deployed with{' '}
+              <a
+                href="https://www.netlify.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="template-link"
+              >
+                Netlify
+              </a>
+            </p>
+          </div>
+
+          <div className="footer-divider"></div>
+
           <p>&copy; 2025 Waitlist App. All rights reserved.</p>
           <p className="footer-made-with-love">
             Made with <span className="heart">❤️</span> by{' '}
@@ -109,17 +125,6 @@ function App() {
               className="footer-link"
             >
               github.com/donvito
-            </a>
-          </p>
-          <p className="footer-note">
-            Powered by{' '}
-            <a
-              href="https://www.netlify.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="footer-link"
-            >
-              Netlify
             </a>
           </p>
         </div>
